@@ -12,8 +12,12 @@ import * as mjml2html from 'mjml';
 @Injectable()
 export class AppService {
   convertMjmlToHtml(mjml: string, options: any = {}): string {
-    const mjmlResponse = mjml2html(mjml, options);
+      const decode = (str: string):string => Buffer.from(str, 'base64').toString('binary');
+      const encode = (str: string):string => Buffer.from(str, 'binary').toString('base64');
+    const mjmlResponse = mjml2html(decode(mjml), options);
+    const htmlResponse = encode(mjmlResponse.html)
+//     console.log(htmlResponse)
     console.log(`Returning MJML response`);
-    return mjmlResponse.html;
+    return htmlResponse;
   }
 }
